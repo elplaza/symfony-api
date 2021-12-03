@@ -1,53 +1,60 @@
-<h1 align="center"><a href="https://api-platform.com"><img src="https://api-platform.com/logo-250x250.png" alt="API Platform"></a></h1>
+# Getting started APIs with API Platform 
 
-API Platform is a next-generation web framework designed to easily create API-first projects without compromising extensibility
-and flexibility:
+Simple APIs project using [API Platform](https://api-platform.com/) just to develop robust Rest or GraphQL APIs with [Symfony framework](https://symfony.com/) using TDD approach.
 
-* Design your own data model as plain old PHP classes or [**import an existing one**](https://api-platform.com/docs/schema-generator)
-  from the [Schema.org](https://schema.org/) vocabulary.
-* **Expose in minutes a hypermedia REST or a GraphQL API** with pagination, data validation, access control, relation embedding,
-  filters and error handling...
-* Benefit from Content Negotiation: [GraphQL](https://graphql.org), [JSON-LD](https://json-ld.org), [Hydra](https://hydra-cg.com),
-  [HAL](https://github.com/mikekelly/hal_specification/blob/master/hal_specification.md), [JSONAPI](https://jsonapi.org/), [YAML](https://yaml.org/), [JSON](https://www.json.org/), [XML](https://www.w3.org/XML/) and [CSV](https://www.ietf.org/rfc/rfc4180.txt) are supported out of the box.
-* Enjoy the **beautiful automatically generated API documentation** ([Swagger](https://swagger.io/)/[OpenAPI](https://www.openapis.org/)).
-* Add [**a convenient Material Design administration interface**](https://api-platform.com/docs/admin) built with [React](https://reactjs.org/)
-  without writing a line of code.
-* **Scaffold fully functional Progressive-Web-Apps and mobile apps** built with [Next.js](https://api-platform.com/docs/client-generator/nextjs/) (React),
-[Nuxt.js](https://api-platform.com/docs/client-generator/nuxtjs/) (Vue.js) or [React Native](https://api-platform.com/docs/client-generator/react-native/)
-thanks to [the client generator](https://api-platform.com/docs/client-generator/) (a Vue.js generator is also available).
-* Install a development environment and deploy your project in production using **[Docker](https://api-platform.com/docs/distribution)**
-and [Kubernetes](https://api-platform.com/docs/deployment/kubernetes).
-* Easily add **[OAuth](https://oauth.net/) authentication**.
-* Create specs and tests with **[a developer friendly API testing tool](https://api-platform.com/docs/distribution/testing/)**.
+Nothing original here, just to experiment!
 
-[![GitHub Actions](https://github.com/api-platform/core/workflows/CI/badge.svg)](https://github.com/api-platform/core/actions?workflow=CI)
-[![Codecov](https://codecov.io/gh/api-platform/core/branch/master/graph/badge.svg)](https://codecov.io/gh/api-platform/core/branch/master)
-[![SymfonyInsight](https://insight.symfony.com/projects/92d78899-946c-4282-89a3-ac92344f9a93/mini.svg)](https://insight.symfony.com/projects/92d78899-946c-4282-89a3-ac92344f9a93)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/api-platform/core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/api-platform/core/?branch=master)
+## How To
 
-The official project documentation is available **[on the API Platform website](https://api-platform.com)**.
+### Install
+- install [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+- install [docker-compose](https://docs.docker.com/compose/install/)
+- install [git](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-18-04-quickstart)
+- clone this repository with `git clone git@github.com:elplaza/symfony-api.git <dir>`
+- move to project `<dir>` with `mv <dir>`
 
-API Platform embraces open web standards (OpenAPI, RDF/JSON-LD/Hydra, GraphQL, JSON:API, HAL, OAuth...) and the
-[Linked Data](https://www.w3.org/standards/semanticweb/data) movement. Your API will automatically expose structured data
-in Schema.org / JSON-LD. It means that your API Platform application is usable **out of the box** with technologies of
-the semantic web.
+### Build
+```bash
+docker-compose build --pull --no-cache
+```
 
-It also means that **your SEO will be improved** because **[Google leverages these formats](https://developers.google.com/search/docs/guides/intro-structured-data)**.
+### Usage
+Run all API Platform stack with:
+```bash
+docker-compose up -d
+```
 
-Last but not least, the server component of API Platform is built on top of the [Symfony](https://symfony.com) framework,
-while client components leverage [React](https://reactjs.org/) (a [Vue.js](https://vuejs.org/) flavor is also available).
-It means that you can:
+You should see:
+- [API Platform home](https://localhost)
+- [APIs documentation](https://localhost/docs)
+- [Admin panel](https://localhost/admin)
+- [GraphQL panel](https://localhost/graphql)
+- Books [jsonld response](https://localhost/books.jsonld) and [json response](https://localhost/books.json)
+- [Next.js PWA](https://localhost/books/)
 
-* Use **thousands of Symfony bundles and React components** with API Platform.
-* Integrate API Platform in **any existing Symfony or React application**.
-* Reuse **all your Symfony and React skills**, benefit of the incredible amount of documentation available.
-* Enjoy the popular [Doctrine ORM](https://www.doctrine-project.org/projects/orm.html) (used by default, but fully optional:
-  you can use the data provider you want, including but not limited to MongoDB and Elasticsearch)
+To add items into database with APIs documentation/Admin panel/GraphQL panel/etc... or massively using fixtures:
+- start a shell in php service: `docker-compose exec php sh`
+- load fixtures with [Alice](https://github.com/nelmio/alice): `bin/console hautelook:fixtures:load`
 
-## Install
+### Tests
+Tests (Unit and Api) are located in `api/tests` directory.
 
-[Read the official "Getting Started" guide](https://api-platform.com/docs/distribution).
+Start a shell in php service:
+```bash
+docker-compose exec php sh
+```
 
-## Credits
+Initialize api_test database:
+```bash
+bin/console doctrine:migrations:migrate -e test
+```
 
-Created by [Kévin Dunglas](https://dunglas.fr). Commercial support available at [Les-Tilleuls.coop](https://les-tilleuls.coop).
+Load fixtures with [Alice](https://github.com/nelmio/alice):
+```bash
+bin/console hautelook:fixtures:load -e test
+```
+
+Run all tests with [PHPUnit](https://phpunit.de/index.html):
+```bash
+bin/phpunit
+```
